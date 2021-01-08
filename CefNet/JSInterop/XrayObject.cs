@@ -38,7 +38,7 @@ namespace CefNet.JSInterop
 		{
 			_context = context;
 			_value = value;
-			this.IsFunction = _value.IsFunction;
+			this.IsFunction = _value.IsObjectOfType(CefV8ValueType.Function);
 			_handle = GCHandle.Alloc(this, GCHandleType.Normal);
 		}
 

@@ -88,8 +88,6 @@ namespace CefNet
 
 		H2OrQuicRequired = -31,
 
-		InsecurePrivateNetworkRequest = -32,
-
 		ConnectionClosed = -100,
 
 		ConnectionReset = -101,

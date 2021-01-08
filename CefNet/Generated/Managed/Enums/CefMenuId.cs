@@ -141,13 +141,13 @@ namespace CefNet
 
 		/// <summary>
 		/// Custom menu items originating from the renderer process. For example,
-		/// plugin placeholder menu items or Flash menu items.
+		/// plugin placeholder menu items.
 		/// </summary>
 		CustomFirst = 220,
 
 		/// <summary>
 		/// Custom menu items originating from the renderer process. For example,
-		/// plugin placeholder menu items or Flash menu items.
+		/// plugin placeholder menu items.
 		/// </summary>
 		CustomLast = 250,
 

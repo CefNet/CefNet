@@ -504,7 +504,7 @@ namespace CefNet.JSInterop
 		{
 			CefV8Value thisArg = GetSafeThisArg(context, target);
 			CefV8Value func = thisArg.GetValue(args.GetString(3));
-			if (!func.IsFunction)
+			if (!func.IsObjectOfType(CefV8ValueType.Function))
 			{
 				func.Dispose();
 				throw new MissingMethodException();
@@ -559,7 +559,7 @@ namespace CefNet.JSInterop
 
 				CefV8Value thisArg = target.Value;
 				CefV8Value func = thisArg.GetValueByKey(name);
-				if (!func.IsFunction)
+				if (func.IsObjectOfType(CefV8ValueType.Function))
 				{
 					func.Dispose();
 					throw new MissingMethodException(string.Format("'{0} is not a function.'", name));
@@ -724,11 +724,11 @@ namespace CefNet.JSInterop
 					return v;
 				case CefV8ValueType.Object:
 					isXray = true;
-					if (value.IsArray) //TYPE_OBJECT (array)
+					if (value.IsObjectOfType(CefV8ValueType.Array)) //TYPE_OBJECT (array)
 					{
 						throw new NotImplementedException();
 					}
-					if (value.IsArrayBuffer) //TYPE_OBJECT (arraybuffer)
+					if (value.IsObjectOfType(CefV8ValueType.ArrayBuffer)) //TYPE_OBJECT (arraybuffer)
 					{
 						throw new NotImplementedException();
 					}
@@ -842,11 +842,11 @@ namespace CefNet.JSInterop
 					return value.GetStringValue();
 				case CefV8ValueType.Object:
 					isXray = true;
-					if (value.IsArray) //TYPE_OBJECT (array)
+					if (value.IsObjectOfType(CefV8ValueType.Array)) //TYPE_OBJECT (array)
 					{
 						throw new NotImplementedException();
 					}
-					if (value.IsArrayBuffer) //TYPE_OBJECT (arraybuffer)
+					if (value.IsObjectOfType(CefV8ValueType.ArrayBuffer)) //TYPE_OBJECT (arraybuffer)
 					{
 						throw new NotImplementedException();
 					}

@@ -484,7 +484,7 @@ namespace CefNet
 		{
 			if (value == null)
 				throw new ArgumentNullException(nameof(value));
-			if (!IsString)
+			if (Type != CefV8ValueType.String)
 				throw new InvalidOperationException();
 
 			cef_string_userfree_t userfreeStr = NativeInstance->GetStringValue();
@@ -496,42 +496,6 @@ namespace CefNet
 			{
 				CefString.Free(userfreeStr);
 				GC.KeepAlive(this);
-			}
-		}
-
-		/// <summary>
-		/// Gets the type of value.
-		/// </summary>
-		public CefV8ValueType Type
-		{
-			get
-			{
-				if (CefApi.UseUnsafeImplementation)
-				{
-					RefCountedWrapperStruct* ws = RefCountedWrapperStruct.FromRefCounted(this.NativeInstance);
-					return SafeCall(((V8ValueImplLayout*)(ws->cppObject))->Type);
-				}
-
-				if (NativeInstance->IsUndefined() != 0) // TYPE_UNDEFINED
-					return CefV8ValueType.Undefined;
-				if (NativeInstance->IsNull() != 0)
-					return CefV8ValueType.Null;
-				if (NativeInstance->IsBool() != 0)
-					return CefV8ValueType.Bool;
-				if (NativeInstance->IsInt() != 0) // TYPE_INT, TYPE_UINT 
-					return CefV8ValueType.Int;
-				if (NativeInstance->IsDouble() != 0)  // TYPE_INT, TYPE_UINT, TYPE_DOUBLE
-					return CefV8ValueType.Double;
-				if (NativeInstance->IsDate() != 0)
-					return CefV8ValueType.Date;
-				if (NativeInstance->IsString() != 0) //TYPE_STRING
-					return CefV8ValueType.String;
-				if (NativeInstance->IsObject() != 0) //TYPE_OBJECT
-					return CefV8ValueType.Object;
-				if (NativeInstance->IsUInt() != 0) // TYPE_INT, TYPE_UINT
-					return CefV8ValueType.UInt;
-				GC.KeepAlive(this);
-				return CefV8ValueType.Invalid;
 			}
 		}
 
@@ -598,9 +562,10 @@ namespace CefNet
 			{
 				try
 				{
-					if (self->IsNull() != 0)
+					CefV8ValueType type = self->GetCefType();
+					if (type == CefV8ValueType.Null)
 						throw new InvalidOperationException($"Cannot read property '{name}' of null.");
-					if (self->IsUndefined() != 0)
+					if (type == CefV8ValueType.Undefined)
 						throw new InvalidOperationException($"Cannot read property '{name}' of undefined.");
 					if (string.IsNullOrEmpty(name))
 						throw new ArgumentOutOfRangeException(nameof(names));
@@ -726,6 +691,7 @@ namespace CefNet
 				{
 					instance->@base.Release();
 					Debug.Print("V8Value type: {0}", wrapper.Type);
+					Debug.Print("WeakRefs count: {0}", WeakRefs.Count);
 					return wrapper;
 				}
 				wrapper = create(ptr);

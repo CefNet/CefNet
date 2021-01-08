@@ -53,206 +53,58 @@ namespace CefNet.CApi
 		}
 
 		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
+		/// cef_v8value_type_t (*)(_cef_v8value_t* self)*
 		/// </summary>
-		public void* is_undefined;
+		public void* get_type;
 
 		/// <summary>
-		/// True if the value type is undefined.
+		/// Returns the JavaScript type of a cef_v8value_t.
 		/// </summary>
-		[NativeName("is_undefined")]
-		public unsafe int IsUndefined()
+		[NativeName("get_type")]
+		public unsafe CefV8ValueType GetCefType()
 		{
 			fixed (cef_v8value_t* self = &this)
 			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_undefined)(self);
+				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, CefV8ValueType>)get_type)(self);
 			}
 		}
 
 		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
+		/// int (*)(_cef_v8value_t* self, cef_v8value_type_t objectType)*
 		/// </summary>
-		public void* is_null;
+		public void* is_object_of_type;
 
 		/// <summary>
-		/// True if the value type is null.
+		/// Returns true (1) if the value type is the specified type.
 		/// </summary>
-		[NativeName("is_null")]
-		public unsafe int IsNull()
+		[NativeName("is_object_of_type")]
+		public unsafe int IsObjectOfType(CefV8ValueType objectType)
 		{
 			fixed (cef_v8value_t* self = &this)
 			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_null)(self);
+				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, CefV8ValueType, int>)is_object_of_type)(self, objectType);
 			}
 		}
 
 		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
+		/// int32 (*)(_cef_v8value_t* self)*
 		/// </summary>
-		public void* is_bool;
+		public void* get_object_identity_hash;
 
 		/// <summary>
-		/// True if the value type is bool.
+		/// Returns the identity hash for this V8 object. The return value will be 0 if
+		/// this function is called incorrectly. Also, it is not guaranteed to be
+		/// unique. This function should only be called from within the scope of a
+		/// cef_render_process_handler_t, cef_v8handler_t or cef_v8accessor_t callback,
+		/// or in combination with calling enter() and exit() on a stored
+		/// cef_v8context_t reference.
 		/// </summary>
-		[NativeName("is_bool")]
-		public unsafe int IsBool()
+		[NativeName("get_object_identity_hash")]
+		public unsafe int GetObjectIdentityHash()
 		{
 			fixed (cef_v8value_t* self = &this)
 			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_bool)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_int;
-
-		/// <summary>
-		/// True if the value type is int.
-		/// </summary>
-		[NativeName("is_int")]
-		public unsafe int IsInt()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_int)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_uint;
-
-		/// <summary>
-		/// True if the value type is unsigned int.
-		/// </summary>
-		[NativeName("is_uint")]
-		public unsafe int IsUInt()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_uint)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_double;
-
-		/// <summary>
-		/// True if the value type is double.
-		/// </summary>
-		[NativeName("is_double")]
-		public unsafe int IsDouble()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_double)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_date;
-
-		/// <summary>
-		/// True if the value type is Date.
-		/// </summary>
-		[NativeName("is_date")]
-		public unsafe int IsDate()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_date)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_string;
-
-		/// <summary>
-		/// True if the value type is string.
-		/// </summary>
-		[NativeName("is_string")]
-		public unsafe int IsString()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_string)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_object;
-
-		/// <summary>
-		/// True if the value type is object.
-		/// </summary>
-		[NativeName("is_object")]
-		public unsafe int IsObject()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_object)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_array;
-
-		/// <summary>
-		/// True if the value type is array.
-		/// </summary>
-		[NativeName("is_array")]
-		public unsafe int IsArray()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_array)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_array_buffer;
-
-		/// <summary>
-		/// True if the value type is an ArrayBuffer.
-		/// </summary>
-		[NativeName("is_array_buffer")]
-		public unsafe int IsArrayBuffer()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_array_buffer)(self);
-			}
-		}
-
-		/// <summary>
-		/// int (*)(_cef_v8value_t* self)*
-		/// </summary>
-		public void* is_function;
-
-		/// <summary>
-		/// True if the value type is function.
-		/// </summary>
-		[NativeName("is_function")]
-		public unsafe int IsFunction()
-		{
-			fixed (cef_v8value_t* self = &this)
-			{
-				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)is_function)(self);
+				return ((delegate* unmanaged[Stdcall]<cef_v8value_t*, int>)get_object_identity_hash)(self);
 			}
 		}
 

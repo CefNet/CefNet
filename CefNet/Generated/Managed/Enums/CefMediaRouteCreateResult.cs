@@ -42,10 +42,12 @@ namespace CefNet
 
 		RouteAlreadyExists = 9,
 
+		RouteAlreadyTerminated = 11,
+
 		/// <summary>
 		/// The total number of values.
 		/// </summary>
-		TotalCount = 11,
+		TotalCount = 12,
 	}
 }
 

@@ -56,134 +56,13 @@ namespace CefNet
 		}
 
 		/// <summary>
-		/// Gets a value indicating whether the value type is undefined.
+		/// Gets the JavaScript type of a cef_v8value_t.
 		/// </summary>
-		public unsafe virtual bool IsUndefined
+		public unsafe virtual CefV8ValueType Type
 		{
 			get
 			{
-				return SafeCall(NativeInstance->IsUndefined() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is null.
-		/// </summary>
-		public unsafe virtual bool IsNull
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsNull() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is bool.
-		/// </summary>
-		public unsafe virtual bool IsBool
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsBool() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is int.
-		/// </summary>
-		public unsafe virtual bool IsInt
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsInt() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is unsigned int.
-		/// </summary>
-		public unsafe virtual bool IsUInt
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsUInt() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is double.
-		/// </summary>
-		public unsafe virtual bool IsDouble
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsDouble() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is Date.
-		/// </summary>
-		public unsafe virtual bool IsDate
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsDate() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is string.
-		/// </summary>
-		public unsafe virtual bool IsString
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsString() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is object.
-		/// </summary>
-		public unsafe virtual bool IsObject
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsObject() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is array.
-		/// </summary>
-		public unsafe virtual bool IsArray
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsArray() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is an ArrayBuffer.
-		/// </summary>
-		public unsafe virtual bool IsArrayBuffer
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsArrayBuffer() != 0);
-			}
-		}
-
-		/// <summary>
-		/// Gets a value indicating whether the value type is function.
-		/// </summary>
-		public unsafe virtual bool IsFunction
-		{
-			get
-			{
-				return SafeCall(NativeInstance->IsFunction() != 0);
+				return SafeCall(NativeInstance->GetCefType());
 			}
 		}
 
@@ -208,6 +87,27 @@ namespace CefNet
 			{
 				return SafeCall(NativeInstance->HasException() != 0);
 			}
+		}
+
+		/// <summary>
+		/// Returns true (1) if the value type is the specified type.
+		/// </summary>
+		public unsafe virtual bool IsObjectOfType(CefV8ValueType objectType)
+		{
+			return SafeCall(NativeInstance->IsObjectOfType(objectType) != 0);
+		}
+
+		/// <summary>
+		/// Returns the identity hash for this V8 object. The return value will be 0 if
+		/// this function is called incorrectly. Also, it is not guaranteed to be
+		/// unique. This function should only be called from within the scope of a
+		/// cef_render_process_handler_t, cef_v8handler_t or cef_v8accessor_t callback,
+		/// or in combination with calling enter() and exit() on a stored
+		/// cef_v8context_t reference.
+		/// </summary>
+		public unsafe virtual int GetObjectIdentityHash()
+		{
+			return SafeCall(NativeInstance->GetObjectIdentityHash());
 		}
 
 		/// <summary>

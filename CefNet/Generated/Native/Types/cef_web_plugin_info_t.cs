@@ -35,7 +35,7 @@ namespace CefNet.CApi
 		public void* get_name;
 
 		/// <summary>
-		/// Returns the plugin name (i.e. Flash).
+		/// Returns the plugin name.
 		/// The resulting string must be freed by calling cef_string_userfree_free().
 		/// </summary>
 		[NativeName("get_name")]

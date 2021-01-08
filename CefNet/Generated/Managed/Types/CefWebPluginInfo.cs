@@ -39,7 +39,7 @@ namespace CefNet
 		}
 
 		/// <summary>
-		/// Gets the plugin name (i.e. Flash).
+		/// Gets the plugin name.
 		/// The resulting string must be freed by calling cef_string_userfree_free().
 		/// </summary>
 		public unsafe virtual string Name

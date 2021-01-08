@@ -16,34 +16,31 @@ namespace CefNet.CApi
 			if (IsValid() == 0)
 				return 0;
 
-			fixed (cef_v8value_t* self = &this)
+			switch (GetCefType())
 			{
-				RefCountedWrapperStruct* ws = RefCountedWrapperStruct.FromRefCounted(self);
-				V8ValueImplLayout* cppobj = ((V8ValueImplLayout*)(ws->cppObject));
-				switch (cppobj->Type)
-				{
-					case CefV8ValueType.Object:
-						V8ValueImplHandleLayout* v8ValueHandle = cppobj->handle;
-						if (v8ValueHandle == null)
-							return 0;
-						IntPtr* handle = v8ValueHandle->handle;
-						return (handle != null) ? (*handle).GetHashCode() : 0;
-					case CefV8ValueType.Bool:
-						return cppobj->value.bool_value_ | (int)CefV8ValueType.Bool;
-					case CefV8ValueType.Double:
-						return cppobj->value.double_value_.GetHashCode();
-					case CefV8ValueType.Int:
-					case CefV8ValueType.UInt:
-						return cppobj->value.int_value_;
-					case CefV8ValueType.Null:
-					case CefV8ValueType.Undefined:
-						return (int)cppobj->Type;
-					case CefV8ValueType.String:
-						return cppobj->value.string_value_.GetHashCode();
-					case CefV8ValueType.Date:
-						return cppobj->value.date_value_.GetHashCode();
-				}
+				case CefV8ValueType.Object:
+					return GetObjectIdentityHash();
+				case CefV8ValueType.Bool:
+					return GetBoolValue() | (int)CefV8ValueType.Bool;
+				case CefV8ValueType.Double:
+					return GetDoubleValue().GetHashCode();
+				case CefV8ValueType.Int:
+				case CefV8ValueType.UInt:
+					return GetIntValue();
+				case CefV8ValueType.Null:
+					return (int)CefV8ValueType.Null;
+				case CefV8ValueType.Undefined:
+					return (int)CefV8ValueType.Undefined;
+				case CefV8ValueType.String:
+					return (CefString.ReadAndFree(GetStringValue()) ?? string.Empty).GetHashCode();
+				case CefV8ValueType.Date:
+					return GetDateValue().GetHashCode();
+				case CefV8ValueType.BigInt:
+					return GetObjectIdentityHash();
+				case CefV8ValueType.Symbol:
+					return GetObjectIdentityHash();
 			}
+			
 			return 0;
 		}
 	}

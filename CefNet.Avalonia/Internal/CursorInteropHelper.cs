@@ -10,12 +10,25 @@ namespace CefNet.Internal
 		private static readonly Dictionary<IntPtr, Cursor> _Cursors = new Dictionary<IntPtr, Cursor>();
 		private static readonly Dictionary<StandardCursorType, Cursor> _StdCursors = new Dictionary<StandardCursorType, Cursor>();
 
+		private static IntPtr GetPlatformHandle(Cursor cursor)
+		{
+			if (cursor != null)
+			{
+				if (cursor.PlatformImpl is IPlatformHandle i)
+				{
+					return i.Handle;
+				}
+			}
+			return default;
+		}
+
 		static CursorInteropHelper()
 		{
-			foreach(StandardCursorType cursorType in Enum.GetValues(typeof(StandardCursorType)))
+			foreach (StandardCursorType cursorType in Enum.GetValues(typeof(StandardCursorType)))
 			{
 				var cursor = new Cursor(cursorType);
-				if (_Cursors.ContainsKey(cursor.PlatformCursor.Handle))
+				var handle = GetPlatformHandle(cursor);
+				if (handle == default || _Cursors.ContainsKey(handle))
 					continue;
 
 				_Cursors.Add(cursor.PlatformCursor.Handle, cursor);
@@ -43,6 +56,5 @@ namespace CefNet.Internal
 			}
 			return cursor;
 		}
-
 	}
 }

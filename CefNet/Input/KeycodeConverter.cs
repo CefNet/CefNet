@@ -28,10 +28,6 @@ namespace CefNet.Input
 		/// </summary>
 		/// <param name="c">The character to be translated into a virtual-key code.</param>
 		/// <returns>The virtual key code.</returns>
-		/// <exception cref="InvalidOperationException">
-		/// The function finds no key that translates to the passed character code.
-		/// Perhaps the wrong locale is being used.
-		/// </exception>
 		public virtual VirtualKeys CharacterToVirtualKey(char character)
 		{
 			if (PlatformInfo.IsWindows)

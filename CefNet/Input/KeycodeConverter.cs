@@ -38,7 +38,7 @@ namespace CefNet.Input
 			{
 				int virtualKeyCode = (WinApi.NativeMethods.VkKeyScan(character) & 0xFF);
 				if (virtualKeyCode == 0xFF)
-					throw new InvalidOperationException("Incompatible input locale.");
+					return VirtualKeys.None;
 				return (VirtualKeys)virtualKeyCode;
 			}
 

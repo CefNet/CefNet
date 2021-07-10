@@ -28,17 +28,13 @@ namespace CefNet.Input
 		/// </summary>
 		/// <param name="c">The character to be translated into a virtual-key code.</param>
 		/// <returns>The virtual key code.</returns>
-		/// <exception cref="InvalidOperationException">
-		/// The function finds no key that translates to the passed character code.
-		/// Perhaps the wrong locale is being used.
-		/// </exception>
 		public virtual VirtualKeys CharacterToVirtualKey(char character)
 		{
 			if (PlatformInfo.IsWindows)
 			{
 				int virtualKeyCode = (WinApi.NativeMethods.VkKeyScan(character) & 0xFF);
 				if (virtualKeyCode == 0xFF)
-					throw new InvalidOperationException("Incompatible input locale.");
+					return VirtualKeys.None;
 				return (VirtualKeys)virtualKeyCode;
 			}
 
